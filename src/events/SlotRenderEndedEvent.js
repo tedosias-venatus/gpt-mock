@@ -34,7 +34,7 @@ export default class SlotRenderEndedEvent {
    * @type {string}
    */
   get _name() {
-    return 'googletag.events.SlotRenderEndedEvent';
+    return 'slotRenderEnded';
   }
 
   /**

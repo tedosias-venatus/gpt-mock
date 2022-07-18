@@ -1,6 +1,6 @@
-import Service from './Service';
-import Slot from './Slot';
-import TargetingMap from './TargetingMap';
+import Service from "./Service";
+import Slot from "./Slot";
+import TargetingMap from "./TargetingMap";
 
 /**
  * Publisher Ads service. This service is used to fetch and show ads from your
@@ -31,7 +31,7 @@ export default class PubAdsService extends Service {
       videoContentId: null,
       videoCmsId: null,
       safeFrameConfig: null,
-      tagForChildDirectedTreatment: null
+      tagForChildDirectedTreatment: null,
     };
     this._correlator = Math.random();
   }
@@ -43,7 +43,7 @@ export default class PubAdsService extends Service {
    * @type {string}
    */
   static get _name() {
-    return 'publisher_ads';
+    return "publisher_ads";
   }
 
   /**
@@ -360,7 +360,7 @@ export default class PubAdsService extends Service {
    * @returns {PubAdsService} The service object on which the method was called.
    */
   setLocation(latitudeOrAddress, optLongitude, optRadius) {
-    if (typeof latitudeOrAddress === 'number') {
+    if (typeof latitudeOrAddress === "number") {
       this._options.latitude = latitudeOrAddress || null;
       this._options.longitude = optLongitude || null;
       this._options.radius = optRadius || null;
@@ -464,5 +464,19 @@ export default class PubAdsService extends Service {
       fn();
       return true;
     }
+  }
+
+  setPrivacySettings(privacySettings) {
+    this.privacySettings = privacySettings;
+  }
+
+  setRequestNonPersonalizedAds(enabled) {
+    this.RequestNonPersonalizedAdsEnabled = enabled;
+  }
+
+  removeEventListener(eventType, fn) {
+    this._listeners[eventType] = (this._listeners[eventType] || []).filter(
+      (listener) => listener !== fn
+    );
   }
 }
