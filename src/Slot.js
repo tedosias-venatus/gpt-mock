@@ -29,7 +29,7 @@ export default class Slot {
     this._targeting = new TargetingMap();
     this._attributes = {};
     this._clickUrl = null;
-    this._responseInformation = null;
+    this._responseInformation = window.googletag.slotMock[adUnitPath] || null;
     this._sizeMapping = null;
     this._options = {
       content: null,
@@ -472,7 +472,8 @@ export default class Slot {
    * @emits {SlotRenderEndedEvent}
    */
   renderEnded(responseInformation) {
-    this._responseInformation = responseInformation;
+    this._responseInformation =
+      responseInformation || this._responseInformation;
     this._options.displayed = true;
 
     const size = this.getSizes()[0];
@@ -480,11 +481,24 @@ export default class Slot {
     for (let service of this._services) {
       let event;
 
-      if (responseInformation != null) {
-        event = new SlotRenderEndedEvent(service.getName(), this,
-          responseInformation.creativeId, responseInformation.lineItemId, false, size);
+      if (this._responseInformation != null) {
+        event = new SlotRenderEndedEvent(
+          service.getName(),
+          this,
+          this._responseInformation.creativeId,
+          this._responseInformation.lineItemId,
+          false,
+          size
+        );
       } else {
-        event = new SlotRenderEndedEvent(service.getName(), this, null, null, true, size);
+        event = new SlotRenderEndedEvent(
+          service.getName(),
+          this,
+          null,
+          null,
+          true,
+          size
+        );
       }
 
       service._fireEvent(event._name, event);
@@ -514,7 +528,11 @@ export default class Slot {
     if (this._options.inViewPercentage !== inViewPercentage) {
       this._options.inViewPercentage = inViewPercentage;
       for (let service of this._services) {
-        const event = new SlotVisibilityChangedEvent(service.getName(), this, inViewPercentage);
+        const event = new SlotVisibilityChangedEvent(
+          service.getName(),
+          this,
+          inViewPercentage
+        );
         service._fireEvent(event._name, event);
       }
     }
@@ -532,6 +550,7 @@ export default class Slot {
     this.fetchEnded();
     this.loaded();
     this.renderStarted();
+    this.renderIframe();
     this.renderEnded();
 
     this.impressionViewable();
@@ -566,5 +585,40 @@ export default class Slot {
    */
   _getContent() {
     return this._options.content;
+  }
+
+  getHtml() {
+    if (!this._responseInformation || !this._responseInformation.rawResponse) {
+      return null;
+    }
+    const responseTokens = this._responseInformation.rawResponse.split('\n');
+    if (responseTokens.length < 2) {
+      return null;
+    }
+
+    return responseTokens[1];
+  }
+
+  renderIframe() {
+    const adCode = this.getHtml();
+    if (!adCode) {
+      return;
+    }
+    const containerElement = document.getElementById(this.getSlotElementId());
+
+    if (!containerElement) {
+      return;
+    }
+
+    const iframe = document.createElement('iframe');
+    containerElement.appendChild(iframe);
+    iframe.id = this.getAdUnitPath();
+
+    iframe.contentDocument.open();
+    let ad = adCode.replace(/\\\\n/g, 'slashn');
+    ad = ad.replace(/\\n/g, '');
+    ad = ad.replace('slashn', '\\n');
+    iframe.contentDocument.write(ad);
+    iframe.contentDocument.close();
   }
 }
