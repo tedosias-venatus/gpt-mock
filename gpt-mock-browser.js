@@ -2180,9 +2180,9 @@ window["googletag"] =
 	      var event = void 0;
 
 	      if (this._responseInformation != null) {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, size);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, [size.getWidth(), size.getHeight()]);
 	      } else {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, size);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, [size.getWidth(), size.getHeight()]);
 	      }
 
 	      service._fireEvent(event._name, event);

@@ -490,7 +490,7 @@ export default class Slot {
           this._responseInformation.creativeId,
           this._responseInformation.lineItemId,
           false,
-          size
+          [size.getWidth(), size.getHeight()]
         );
       } else {
         event = new SlotRenderEndedEvent(
@@ -499,7 +499,7 @@ export default class Slot {
           null,
           null,
           true,
-          size
+          [size.getWidth(), size.getHeight()]
         );
       }
 
