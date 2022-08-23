@@ -1609,13 +1609,15 @@ window["googletag"] =
 	    _classCallCheck(this, Slot);
 
 	    this._id = new _SlotId2['default'](adUnitPath, instance, optDiv);
-	    this._sizes = GeneralSize.toSizes(size);
+	    var mock = window.googletag.slotMock[adUnitPath] || null;
+	    var mockSize = mock && mock.size;
+	    this._sizes = GeneralSize.toSizes(mockSize || size);
 	    this._services = [];
 	    this._categoryExclusions = [];
 	    this._targeting = new _TargetingMap2['default']();
 	    this._attributes = {};
 	    this._clickUrl = null;
-	    this._responseInformation = window.googletag.slotMock[adUnitPath] || null;
+	    this._responseInformation = mock || null;
 	    this._sizeMapping = null;
 	    this._options = {
 	      content: null,
@@ -2178,9 +2180,9 @@ window["googletag"] =
 	      var event = void 0;
 
 	      if (this._responseInformation != null) {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, size);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, [size.getWidth(), size.getHeight()]);
 	      } else {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, size);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, [size.getWidth(), size.getHeight()]);
 	      }
 
 	      service._fireEvent(event._name, event);
