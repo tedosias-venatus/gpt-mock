@@ -23,13 +23,15 @@ export default class Slot {
    */
   constructor(adUnitPath, size, optDiv, instance = 0) {
     this._id = new SlotId(adUnitPath, instance, optDiv);
-    this._sizes = GeneralSize.toSizes(size);
+    const mock = window.googletag.slotMock[adUnitPath] || null;
+    const mockSize = mock && mock.size;
+    this._sizes = GeneralSize.toSizes(mockSize || size);
     this._services = [];
     this._categoryExclusions = [];
     this._targeting = new TargetingMap();
     this._attributes = {};
     this._clickUrl = null;
-    this._responseInformation = window.googletag.slotMock[adUnitPath] || null;
+    this._responseInformation = mock || null;
     this._sizeMapping = null;
     this._options = {
       content: null,

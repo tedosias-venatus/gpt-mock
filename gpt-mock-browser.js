@@ -1609,13 +1609,15 @@ window["googletag"] =
 	    _classCallCheck(this, Slot);
 
 	    this._id = new _SlotId2['default'](adUnitPath, instance, optDiv);
-	    this._sizes = GeneralSize.toSizes(size);
+	    var mock = window.googletag.slotMock[adUnitPath] || null;
+	    var mockSize = mock && mock.size;
+	    this._sizes = GeneralSize.toSizes(mockSize || size);
 	    this._services = [];
 	    this._categoryExclusions = [];
 	    this._targeting = new _TargetingMap2['default']();
 	    this._attributes = {};
 	    this._clickUrl = null;
-	    this._responseInformation = window.googletag.slotMock[adUnitPath] || null;
+	    this._responseInformation = mock || null;
 	    this._sizeMapping = null;
 	    this._options = {
 	      content: null,
