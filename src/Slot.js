@@ -479,6 +479,11 @@ export default class Slot {
     this._options.displayed = true;
 
     const size = this.getSizes()[0];
+    let singleSize = null;
+
+    if (size) {
+      singleSize = [size.getWidth(), size.getHeight()];
+    }
 
     for (let service of this._services) {
       let event;
@@ -490,7 +495,7 @@ export default class Slot {
           this._responseInformation.creativeId,
           this._responseInformation.lineItemId,
           false,
-          [size.getWidth(), size.getHeight()]
+          singleSize
         );
       } else {
         event = new SlotRenderEndedEvent(
@@ -499,7 +504,7 @@ export default class Slot {
           null,
           null,
           true,
-          [size.getWidth(), size.getHeight()]
+          singleSize
         );
       }
 

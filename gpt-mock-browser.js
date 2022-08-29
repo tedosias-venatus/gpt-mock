@@ -2162,6 +2162,11 @@ window["googletag"] =
 	    this._options.displayed = true;
 
 	    var size = this.getSizes()[0];
+	    var singleSize = null;
+
+	    if (size) {
+	      singleSize = [size.getWidth(), size.getHeight()];
+	    }
 
 	    for (var _iterator3 = this._services, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
 	      var _ref3;
@@ -2180,9 +2185,9 @@ window["googletag"] =
 	      var event = void 0;
 
 	      if (this._responseInformation != null) {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, [size.getWidth(), size.getHeight()]);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, this._responseInformation.creativeId, this._responseInformation.lineItemId, false, singleSize);
 	      } else {
-	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, [size.getWidth(), size.getHeight()]);
+	        event = new _SlotRenderEndedEvent2['default'](service.getName(), this, null, null, true, singleSize);
 	      }
 
 	      service._fireEvent(event._name, event);
