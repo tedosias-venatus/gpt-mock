@@ -85,11 +85,11 @@ window["googletag"] =
 
 	var _Slot2 = _interopRequireDefault(_Slot);
 
-	var _SizeMappingBuilder = __webpack_require__(21);
+	var _SizeMappingBuilder = __webpack_require__(22);
 
 	var _SizeMappingBuilder2 = _interopRequireDefault(_SizeMappingBuilder);
 
-	var _CommandArray = __webpack_require__(22);
+	var _CommandArray = __webpack_require__(23);
 
 	var _CommandArray2 = _interopRequireDefault(_CommandArray);
 
@@ -941,7 +941,7 @@ window["googletag"] =
 
 	var _Slot2 = _interopRequireDefault(_Slot);
 
-	var _TargetingMap = __webpack_require__(20);
+	var _TargetingMap = __webpack_require__(21);
 
 	var _TargetingMap2 = _interopRequireDefault(_TargetingMap);
 
@@ -1575,11 +1575,15 @@ window["googletag"] =
 
 	var _SlotVisibilityChangedEvent2 = _interopRequireDefault(_SlotVisibilityChangedEvent);
 
-	var _SlotId = __webpack_require__(19);
+	var _SlotResponseReceivedEvent = __webpack_require__(19);
+
+	var _SlotResponseReceivedEvent2 = _interopRequireDefault(_SlotResponseReceivedEvent);
+
+	var _SlotId = __webpack_require__(20);
 
 	var _SlotId2 = _interopRequireDefault(_SlotId);
 
-	var _TargetingMap = __webpack_require__(20);
+	var _TargetingMap = __webpack_require__(21);
 
 	var _TargetingMap2 = _interopRequireDefault(_TargetingMap);
 
@@ -1725,6 +1729,7 @@ window["googletag"] =
 	      this.fetchStarted();
 	      this.fetchEnded();
 	      this.loaded();
+	      this.responseReceived();
 	      this.renderStarted();
 	      this.renderEnded();
 
@@ -2138,6 +2143,34 @@ window["googletag"] =
 	  };
 
 	  /**
+	   * Informs the {@link Slot} that response has been received.
+	   *
+	   * @emits {SlotResponseReceivedEvent}
+	   */
+
+
+	  Slot.prototype.responseReceived = function responseReceived() {
+	    for (var _iterator3 = this._services, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+	      var _ref3;
+
+	      if (_isArray3) {
+	        if (_i3 >= _iterator3.length) break;
+	        _ref3 = _iterator3[_i3++];
+	      } else {
+	        _i3 = _iterator3.next();
+	        if (_i3.done) break;
+	        _ref3 = _i3.value;
+	      }
+
+	      var service = _ref3;
+
+	      var event = new _SlotResponseReceivedEvent2['default'](service.getName(), this);
+
+	      service._fireEvent(event._name, event);
+	    }
+	  };
+
+	  /**
 	   * Informs the {@link Slot} that its rendering has started.
 	   *
 	   * @experimental
@@ -2168,19 +2201,19 @@ window["googletag"] =
 	      singleSize = [size.getWidth(), size.getHeight()];
 	    }
 
-	    for (var _iterator3 = this._services, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-	      var _ref3;
+	    for (var _iterator4 = this._services, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+	      var _ref4;
 
-	      if (_isArray3) {
-	        if (_i3 >= _iterator3.length) break;
-	        _ref3 = _iterator3[_i3++];
+	      if (_isArray4) {
+	        if (_i4 >= _iterator4.length) break;
+	        _ref4 = _iterator4[_i4++];
 	      } else {
-	        _i3 = _iterator3.next();
-	        if (_i3.done) break;
-	        _ref3 = _i3.value;
+	        _i4 = _iterator4.next();
+	        if (_i4.done) break;
+	        _ref4 = _i4.value;
 	      }
 
-	      var service = _ref3;
+	      var service = _ref4;
 
 	      var event = void 0;
 
@@ -2202,19 +2235,19 @@ window["googletag"] =
 
 
 	  Slot.prototype.impressionViewable = function impressionViewable() {
-	    for (var _iterator4 = this._services, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
-	      var _ref4;
+	    for (var _iterator5 = this._services, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+	      var _ref5;
 
-	      if (_isArray4) {
-	        if (_i4 >= _iterator4.length) break;
-	        _ref4 = _iterator4[_i4++];
+	      if (_isArray5) {
+	        if (_i5 >= _iterator5.length) break;
+	        _ref5 = _iterator5[_i5++];
 	      } else {
-	        _i4 = _iterator4.next();
-	        if (_i4.done) break;
-	        _ref4 = _i4.value;
+	        _i5 = _iterator5.next();
+	        if (_i5.done) break;
+	        _ref5 = _i5.value;
 	      }
 
-	      var service = _ref4;
+	      var service = _ref5;
 
 	      var event = new _ImpressionViewableEvent2['default'](service.getName(), this);
 
@@ -2233,19 +2266,19 @@ window["googletag"] =
 	  Slot.prototype.visibilityChanged = function visibilityChanged(inViewPercentage) {
 	    if (this._options.inViewPercentage !== inViewPercentage) {
 	      this._options.inViewPercentage = inViewPercentage;
-	      for (var _iterator5 = this._services, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
-	        var _ref5;
+	      for (var _iterator6 = this._services, _isArray6 = Array.isArray(_iterator6), _i6 = 0, _iterator6 = _isArray6 ? _iterator6 : _iterator6[Symbol.iterator]();;) {
+	        var _ref6;
 
-	        if (_isArray5) {
-	          if (_i5 >= _iterator5.length) break;
-	          _ref5 = _iterator5[_i5++];
+	        if (_isArray6) {
+	          if (_i6 >= _iterator6.length) break;
+	          _ref6 = _iterator6[_i6++];
 	        } else {
-	          _i5 = _iterator5.next();
-	          if (_i5.done) break;
-	          _ref5 = _i5.value;
+	          _i6 = _iterator6.next();
+	          if (_i6.done) break;
+	          _ref6 = _i6.value;
 	        }
 
-	        var service = _ref5;
+	        var service = _ref6;
 
 	        var event = new _SlotVisibilityChangedEvent2['default'](service.getName(), this, inViewPercentage);
 	        service._fireEvent(event._name, event);
@@ -2266,6 +2299,7 @@ window["googletag"] =
 	    this.fetchStarted();
 	    this.fetchEnded();
 	    this.loaded();
+	    this.responseReceived();
 	    this.renderStarted();
 	    this.renderIframe();
 	    this.renderEnded();
@@ -3245,6 +3279,79 @@ window["googletag"] =
 /* 19 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * This event is fired when an ad response has been received for a particular slot.
+	 */
+	var SlotResponseReceivedEvent = function () {
+	  /**
+	   * Creates a new SlotResponseReceivedEvent instance.
+	   *
+	   * @param {string} serviceName Name of the service that triggered the event.
+	   * @param {!Slot} slot The slot that triggered the event.
+	   */
+	  function SlotResponseReceivedEvent(serviceName, slot) {
+	    _classCallCheck(this, SlotResponseReceivedEvent);
+
+	    this._serviceName = serviceName;
+	    this._slot = slot;
+	  }
+
+	  /**
+	   * Name of the event.
+	   *
+	   * @private
+	   * @type {string}
+	   */
+
+
+	  _createClass(SlotResponseReceivedEvent, [{
+	    key: '_name',
+	    get: function get() {
+	      return 'slotResponseReceived';
+	    }
+
+	    /**
+	     * Name of the service that rendered the slot.
+	     *
+	     * @type {string}
+	     */
+
+	  }, {
+	    key: 'serviceName',
+	    get: function get() {
+	      return this._serviceName;
+	    }
+
+	    /**
+	     * The slot in which the creative was rendered.
+	     *
+	     * @type {!Slot}
+	     */
+
+	  }, {
+	    key: 'slot',
+	    get: function get() {
+	      return this._slot;
+	    }
+	  }]);
+
+	  return SlotResponseReceivedEvent;
+	}();
+
+	exports['default'] = SlotResponseReceivedEvent;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
 	"use strict";
 
 	exports.__esModule = true;
@@ -3345,7 +3452,7 @@ window["googletag"] =
 	exports["default"] = SlotId;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3443,7 +3550,7 @@ window["googletag"] =
 	exports["default"] = TargetingMap;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3515,7 +3622,7 @@ window["googletag"] =
 	exports['default'] = SizeMappingBuilder;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';

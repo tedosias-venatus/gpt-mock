@@ -4,6 +4,7 @@ import ImpressionViewableEvent from './events/ImpressionViewableEvent';
 import SlotOnloadEvent from './events/SlotOnloadEvent';
 import SlotRenderEndedEvent from './events/SlotRenderEndedEvent';
 import SlotVisibilityChangedEvent from './events/SlotVisibilityChangedEvent';
+import SlotResponseReceivedEvent from './events/SlotResponseReceivedEvent';
 import SlotId from './SlotId';
 import TargetingMap from './TargetingMap';
 
@@ -123,6 +124,7 @@ export default class Slot {
       this.fetchStarted();
       this.fetchEnded();
       this.loaded();
+      this.responseReceived();
       this.renderStarted();
       this.renderEnded();
 
@@ -458,6 +460,22 @@ export default class Slot {
   }
 
   /**
+   * Informs the {@link Slot} that response has been received.
+   *
+   * @emits {SlotResponseReceivedEvent}
+   */
+  responseReceived() {
+    for (let service of this._services) {
+      const event = new SlotResponseReceivedEvent(
+        service.getName(),
+        this,
+      );
+
+      service._fireEvent(event._name, event);
+    }
+  }
+
+  /**
    * Informs the {@link Slot} that its rendering has started.
    *
    * @experimental
@@ -556,6 +574,7 @@ export default class Slot {
     this.fetchStarted();
     this.fetchEnded();
     this.loaded();
+    this.responseReceived();
     this.renderStarted();
     this.renderIframe();
     this.renderEnded();
