@@ -81,6 +81,24 @@ export default class GPT {
     this._addService(new ContentService(this));
     this._addService(new PubAdsService(this));
     this._title = null;
+    this.enums = {
+      OutOfPageFormat: {
+        2: 'TOP_ANCHOR',
+        3: 'BOTTOM_ANCHOR',
+        4: 'REWARDED',
+        5: 'INTERSTITIAL',
+        REWARDED: 4,
+        TOP_ANCHOR: 2,
+        BOTTOM_ANCHOR: 3,
+        INTERSTITIAL: 5
+      },
+      TrafficSource: {
+        1: 'PURCHASED',
+        2: 'ORGANIC',
+        PURCHASED: 1,
+        ORGANIC: 2
+      }
+    };
   }
 
   /**
@@ -185,7 +203,7 @@ export default class GPT {
    * @returns {boolean} true if slots have been destroyed, false otherwise.
    */
   destroySlots(optSlots) {
-    for (let slot of (optSlots || this._slots)) {
+    for (let slot of optSlots || this._slots) {
       const i = this._slots.indexOf(slot);
       if (i !== -1) {
         slot._removeServices();
@@ -295,5 +313,4 @@ export default class GPT {
       this.cmd = new CommandArray(this.cmd);
     }
   }
-
 }

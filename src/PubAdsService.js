@@ -34,6 +34,7 @@ export default class PubAdsService extends Service {
       tagForChildDirectedTreatment: null,
     };
     this._correlator = Math.random();
+    this._isInitialLoadDisabled =  window.googletag.pubadsMock.isInitialLoadDisabled || false;
   }
 
   /**
@@ -44,6 +45,10 @@ export default class PubAdsService extends Service {
    */
   static get _name() {
     return "publisher_ads";
+  }
+
+  isInitialLoadDisabled() {
+    return this._isInitialLoadDisabled;
   }
 
   /**
