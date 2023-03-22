@@ -177,6 +177,24 @@ window["googletag"] =
 	    this._addService(new _ContentService2['default'](this));
 	    this._addService(new _PubAdsService2['default'](this));
 	    this._title = null;
+	    this.enums = {
+	      OutOfPageFormat: {
+	        2: 'TOP_ANCHOR',
+	        3: 'BOTTOM_ANCHOR',
+	        4: 'REWARDED',
+	        5: 'INTERSTITIAL',
+	        REWARDED: 4,
+	        TOP_ANCHOR: 2,
+	        BOTTOM_ANCHOR: 3,
+	        INTERSTITIAL: 5
+	      },
+	      TrafficSource: {
+	        1: 'PURCHASED',
+	        2: 'ORGANIC',
+	        PURCHASED: 1,
+	        ORGANIC: 2
+	      }
+	    };
 	  }
 
 	  /**
@@ -891,7 +909,7 @@ window["googletag"] =
 
 	      slot._setContent(content);
 	    }
-	    this._storedContent = null;
+	    this._storedContent = [];
 	  };
 
 	  /**
@@ -990,6 +1008,7 @@ window["googletag"] =
 	      tagForChildDirectedTreatment: null
 	    };
 	    _this._correlator = Math.random();
+	    _this._isInitialLoadDisabled = window.googletag.pubadsMock.isInitialLoadDisabled || false;
 	    return _this;
 	  }
 
@@ -1001,11 +1020,17 @@ window["googletag"] =
 	   */
 
 
+	  PubAdsService.prototype.isInitialLoadDisabled = function isInitialLoadDisabled() {
+	    return this._isInitialLoadDisabled;
+	  };
+
 	  /**
 	   * Enables the service.
 	   *
 	   * @override
 	   */
+
+
 	  PubAdsService.prototype.enable = function enable() {
 	    _Service.prototype.enable.call(this);
 	    this._gpt.pubadsReady = true;

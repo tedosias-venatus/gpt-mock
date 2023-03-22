@@ -34,7 +34,7 @@ export default class ContentService extends Service {
     for (let [slot, content] of this._storedContent) {
       slot._setContent(content);
     }
-    this._storedContent = null;
+    this._storedContent = [];
   }
 
   /**
