@@ -1756,6 +1756,7 @@ window["googletag"] =
 	      this.loaded();
 	      this.responseReceived();
 	      this.renderStarted();
+	      this.renderIframe();
 	      this.renderEnded();
 
 	      this.impressionViewable();
@@ -2382,10 +2383,19 @@ window["googletag"] =
 	  };
 
 	  Slot.prototype.renderIframe = function renderIframe() {
+	    var _this = this;
+
 	    var adCode = this.getHtml();
 	    if (!adCode) {
 	      return;
 	    }
+
+	    this.getTargetingKeys().forEach(function (targetingKey) {
+	      var pattern = '%%PATTERN:' + targetingKey + '%%';
+	      var value = _this.getTargeting(targetingKey);
+	      adCode = adCode.replace(pattern, value);
+	    });
+
 	    var containerElement = document.getElementById(this.getSlotElementId());
 
 	    if (!containerElement) {

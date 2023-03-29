@@ -126,6 +126,7 @@ export default class Slot {
       this.loaded();
       this.responseReceived();
       this.renderStarted();
+      this.renderIframe();
       this.renderEnded();
 
       this.impressionViewable();
@@ -626,10 +627,17 @@ export default class Slot {
   }
 
   renderIframe() {
-    const adCode = this.getHtml();
+    let adCode = this.getHtml();
     if (!adCode) {
       return;
     }
+
+    this.getTargetingKeys().forEach(targetingKey => {
+      const pattern = `%%PATTERN:${targetingKey}%%`;
+      const value = this.getTargeting(targetingKey);
+      adCode = adCode.replace(pattern, value);
+    });
+
     const containerElement = document.getElementById(this.getSlotElementId());
 
     if (!containerElement) {
